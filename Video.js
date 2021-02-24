@@ -25,6 +25,23 @@ export default class Video extends Component {
     };
   }
 
+  static setMerchantId(merchantId){
+    NativeModules.Video.setMerchantId(merchantId);
+  }
+
+  static setAppId(appId){
+    NativeModules.Video.setAppId(appId);
+
+  }
+
+  static setUserId(userId){
+    NativeModules.Video.setUserId(userId);
+  }
+
+  static setSessionId(sessionId){
+    NativeModules.Video.setSessionId(sessionId);
+  }
+
   setNativeProps(nativeProps) {
     this._root.setNativeProps(nativeProps);
   }
@@ -296,6 +313,8 @@ export default class Video extends Component {
       resizeMode: nativeResizeMode,
       src: {
         uri,
+        userId: source.userId,
+        sessionId: source.sessionId,
         isNetwork,
         isAsset,
         shouldCache,
