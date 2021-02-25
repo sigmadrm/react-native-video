@@ -27,11 +27,11 @@ android {
 
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
-    implementation "com.sigma.drm:sigma-player-core:2.9.6-r5"
-    implementation 'com.sigma.drm:sigma-player-hls:2.9.6-r5'
-    implementation 'com.sigma.drm:sigma-player-ui:2.9.6-r5'
-    implementation 'com.sigma.drm:sigma-player-dash:2.9.6-r5'
-    implementation 'com.sigma.drm:sigma-player-smoothstreaming:2.9.6-r5'
+    implementation "com.sigma.drm:sigma-player-core:2.9.6-r9"
+    implementation 'com.sigma.drm:sigma-player-hls:2.9.6-r9'
+    implementation 'com.sigma.drm:sigma-player-ui:2.9.6-r9'
+    implementation 'com.sigma.drm:sigma-player-dash:2.9.6-r9'
+    implementation 'com.sigma.drm:sigma-player-smoothstreaming:2.9.6-r9'
 //    implementation('com.google.android.exoplayer:exoplayer:2.11.4') {
 //        exclude group: 'com.android.support'
 //    }
