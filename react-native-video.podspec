@@ -17,6 +17,8 @@ Pod::Spec.new do |s|
 
   s.subspec "Video" do |ss|
     ss.source_files  = "ios/Video/*.{h,m}"
+    s.public_header_files = 'ios/Video/include/*.h'
+    s.vendored_libraries = 'ios/Video/lib/libSigmaDRM.a'
     s.static_framework = true
   end
 

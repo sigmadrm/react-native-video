@@ -5,6 +5,7 @@
 #import <React/UIView+React.h>
 #include <MediaAccessibility/MediaAccessibility.h>
 #include <AVFoundation/AVFoundation.h>
+#import "SigmaDRM.h"
 
 static NSString *const statusKeyPath = @"status";
 static NSString *const playbackLikelyToKeepUpKeyPath = @"playbackLikelyToKeepUp";
@@ -15,6 +16,8 @@ static NSString *const timedMetadata = @"timedMetadata";
 static NSString *const externalPlaybackActive = @"externalPlaybackActive";
 
 static int const RCTVideoUnset = -1;
+static NSString *MERCHANT_ID = nil;
+static NSString *APP_ID = nil;
 
 #ifdef DEBUG
     #define DebugLog(...) NSLog(__VA_ARGS__)
@@ -400,6 +403,10 @@ static int const RCTVideoUnset = -1;
       if (self.onVideoLoadStart) {
         id uri = [self->_source objectForKey:@"uri"];
         id type = [self->_source objectForKey:@"type"];
+        id userId = [self->_source objectForKey:@"userId"];
+        id sessionId = [self->_source objectForKey:@"sessionId"];
+        [[SigmaDRM getInstance] setSigmaUid:userId];
+        [[SigmaDRM getInstance] setSessionId:sessionId];
         self.onVideoLoadStart(@{@"src": @{
                                     @"uri": uri ? uri : [NSNull null],
                                     @"type": type ? type : [NSNull null],
@@ -530,9 +537,11 @@ static int const RCTVideoUnset = -1;
     }
 #endif
     
-    asset = [AVURLAsset URLAssetWithURL:url options:assetOptions];
+//    asset = [AVURLAsset URLAssetWithURL:url options:assetOptions];
+      asset = [[SigmaDRM getInstance] assetWithUrl:uri];
   } else if (isAsset) {
-    asset = [AVURLAsset URLAssetWithURL:url options:nil];
+//    asset = [AVURLAsset URLAssetWithURL:url options:nil];
+      asset = [[SigmaDRM getInstance] assetWithUrl:uri];
   } else {
     asset = [AVURLAsset URLAssetWithURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:uri ofType:type]] options:nil];
   }
@@ -608,12 +617,12 @@ static int const RCTVideoUnset = -1;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-
   if([keyPath isEqualToString:readyForDisplayKeyPath] && [change objectForKey:NSKeyValueChangeNewKey] && self.onReadyForDisplay) {
     self.onReadyForDisplay(@{@"target": self.reactTag});
     return;
   }
   if (object == _playerItem) {
+      NSLog(@"KeyPath: %@", keyPath);
     // When timeMetadata is read the event onTimedMetadata is triggered
     if ([keyPath isEqualToString:timedMetadata]) {
       NSArray<AVMetadataItem *> *items = [change objectForKey:@"new"];
@@ -2009,5 +2018,20 @@ didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
   _restoreUserInterfaceForPIPStopCompletionHandler = completionHandler;
 }
 #endif
-
++ (NSString *)merchantId
+{
+    return MERCHANT_ID;
+}
++ (void)setMerchantId:(NSString *)merchant
+{
+    MERCHANT_ID = merchant;
+}
++ (NSString *)appId
+{
+    return APP_ID;
+}
++ (void)setAppId:(NSString *)app
+{
+    APP_ID = app;
+}
 @end

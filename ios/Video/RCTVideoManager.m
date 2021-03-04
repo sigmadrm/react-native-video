@@ -3,10 +3,11 @@
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
 #import <AVFoundation/AVFoundation.h>
+#import "SigmaDRM.h"
 
 @implementation RCTVideoManager
 
-RCT_EXPORT_MODULE();
+RCT_EXPORT_MODULE(RCTVideo);
 
 - (UIView *)view
 {
@@ -114,6 +115,27 @@ RCT_REMAP_METHOD(setLicenseResultError,
 };
 RCT_EXPORT_VIEW_PROPERTY(onPictureInPictureStatusChanged, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onRestoreUserInterfaceForPictureInPictureStop, RCTDirectEventBlock);
+
+RCT_EXPORT_METHOD(setMerchantId:(NSString *)merchantId)
+{
+    [[SigmaDRM getInstance] setMerchantId:merchantId];
+}
+
+RCT_EXPORT_METHOD(setAppId:(nonnull NSString *)appId)
+{
+    [[SigmaDRM getInstance] setAppId:appId];
+}
+
+RCT_EXPORT_METHOD(setUserId:(nonnull NSString *)userId)
+{
+    
+}
+
+RCT_EXPORT_METHOD(setSessionId:(nonnull NSString *)sessionId)
+{
+    
+}
+
 
 - (NSDictionary *)constantsToExport
 {
