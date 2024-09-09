@@ -41,7 +41,7 @@ dependencies {
     implementation "androidx.core:core:1.1.0"
     implementation "androidx.media:media:1.1.0"
 
-    implementation('com.google.android.exoplayer:extension-okhttp:2.9.6') {
+    implementation('com.sigma.drm:sigma-player-okhttp:2.9.6-r9') {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
         exclude group: 'com.google.android.exoplayer', module: 'exoplayer-core'
     }
